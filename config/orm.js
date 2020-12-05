@@ -32,7 +32,7 @@ var orm = {
         connection.query(queryString, function(err, results) {
             if (err) {
                 console.log(err);
-                throw err
+                throw err;
             }
             cb(results);
         });
