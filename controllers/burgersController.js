@@ -1,10 +1,10 @@
-var express = require("express");
-var router = express.Router();
-var burgerModel = require("../models/burgers.js");
+const express = require("express");
+const router = express.Router();
+const burgerModel = require("../models/burgers.js");
 
-router.get("/", function(req, res) {
-    burgerModel.selectAll(function(data) {
-        var allObject = {
+router.get("/", (req, res)=> {
+    burgerModel.selectAll((data)=> {
+        const allObject = {
             burgers: data
         };
         console.log(allObject);
@@ -12,25 +12,25 @@ router.get("/", function(req, res) {
     });
 });
 
-router.post("/api/burgers", function(req, res) {
+router.post("/api/burgers", (req, res)=> {
     burgerModel.createOne([
         "burger_name"
     ], [
         req.body.burger_name
     ], 
-        function(result) {
+        (result)=> {
             res.json({id: result.insertID});
     });
 });
 
-router.put("/api/burgers/:id", function(req, res) {
-    var condition = "id = " + req.params.id;
+router.put("/api/burgers/:id", (req, res)=> {
+    const condition = "id = " + req.params.id;
     console.log("condition", condition);
     console.log(req.body);
     console.log(req.body.devoured);
 
     burgerModel.updateOne(
-        {devoured: req.body.devoured}, condition, function(result) {
+        {devoured: req.body.devoured}, condition, (result)=> {
         if (result.changedRows === 0) {
             return res.status(404).end();
         } else {

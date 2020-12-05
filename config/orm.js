@@ -1,20 +1,20 @@
-var connection = require("../config/connection.js");
+const connection = require("../config/connection.js");
 
-function printQuestionMarks(input) {
-    var array = [];
+const printQuestionMarks = (input)=> {
+    const array = [];
 
-    for (var i = 0; i < input; i++) {
+    for (const i = 0; i < input; i++) {
         array.push("?");
     }
 
     return array.toString()
 }
 
-function objToSql(obj) {
-    var arr = [];
+const objToSql = (obj)=> {
+    const arr = [];
 
-    for (var key in obj) {
-        var value = obj[key];
+    for (const key in obj) {
+        const value = obj[key];
 
         if (Object.hasOwnProperty.call(obj, key)) {
             if (typeof value === "string" && value.indexOf(" ") >= 0) {
@@ -26,10 +26,10 @@ function objToSql(obj) {
             return arr.toString();
     }
 }
-var orm = {
-    selectAll: function(tableInput, cb) {
-        var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function(err, results) {
+const orm = {
+    selectAll: (tableInput, cb)=> {
+        const queryString = "SELECT * FROM " + tableInput + ";";
+        connection.query(queryString,(err, results)=> {
             if (err) {
                 console.log(err);
                 throw err;
@@ -38,7 +38,7 @@ var orm = {
         });
     },
     createOne: function(table, cols, vals, cb) {
-        var queryString = "INSERT INTO " + table;
+        const queryString = "INSERT INTO " + table;
         queryString += " (" + cols.toString() + ") VALUES (";
         queryString += printQuestionMarks(vals.length) + ") ";
         console.log("insertOne queryString: ", queryString);
@@ -52,12 +52,12 @@ var orm = {
         })
 
     },
-    updateOne: function(table, objColVals, condition, cb) {
-        var queryString = "UPDATE " + table + " SET ";
+    updateOne: (table, objColVals, condition, cb)=> {
+        const queryString = "UPDATE " + table + " SET ";
         queryString += objToSql(objColVals) + " WHERE " + condition;
         console.log("updateOne queryString", queryString);
 
-        connection.query(queryString, function(err, results) {
+        connection.query(queryString,(err, results)=> {
             if (err) {
                 console.log("updateOne err", err);
                 throw err
